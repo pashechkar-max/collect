@@ -80,4 +80,29 @@ class Collect
         array_splice($idx, $length);
         return $this;
     }
+
+    public function filter(callable $callback): Collect
+    {
+        return new self(array_filter($this->array, $callback, ARRAY_FILTER_USE_BOTH));
+    }
+
+    public function pluck($key): Collect
+    {
+        return new self(array_map(fn($item) => $item[$key] ?? null, $this->array));
+    }
+
+    public function keys(): Collect
+    {
+        return new self(array_keys($this->array));
+    }
+
+    public function values(): Collect
+    {
+        return new self(array_values($this->array));
+    }
+
+    public function contains($value): bool
+    {
+        return in_array($value, $this->array);
+    }
 }
